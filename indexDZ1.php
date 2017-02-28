@@ -152,4 +152,8 @@ do
     } while ($pos>=0);
 print_r ($newArr);
 
+$newStr=implode($newArr, "_");
+
+echo $newStr;
+
 
