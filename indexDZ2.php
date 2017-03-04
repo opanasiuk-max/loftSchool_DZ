@@ -264,28 +264,24 @@ echo str_replace('Две', 'Три', $str23);
 //Смайл должен храниться в отдельной функции
 echo "<h3>Задание #8</h3>";
 function smylik(){
-    echo "( ͡° ͜ʖ ͡°)";
-
+    echo "( ͡° ͜ʖ ͡°)<br>";
 }
+
 function rxPackets($str)
 {
-
     $pattern1 = "/[a-z]+:[a-z0-9]+/";
     $pattern2 = "/\:\)/";
 
-
     preg_match_all($pattern1, $str, $strArr1);
     preg_match($pattern2, $str, $strArr2);
-
 
     if (count($strArr2[0]) !== 0) {
         smylik();
     } elseif (count($strArr1[0]) > 3) {
         echo "Сеть есть";
     }
-
-
 }
+
 $rxStr="RX packets:950381 errors:0 dropped:0 overruns:0 frame:0.:)";
 //$rxStr="RX packets:950381 errors:0 dropped:0 overruns:0 frame:0.";
 rxPackets($rxStr);
