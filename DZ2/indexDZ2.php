@@ -59,39 +59,54 @@ echo "<h3>Задание #2</h3>";
 //Функция должна вывести результат на экран.
 //Функция должна обрабатывать любой ввод, в том числе некорректный и выдавать сообщения об этом
 function func2($arr, $str){
-    switch ($str){
-        case '+':
-            $rez=$arr[0];
-            for ($j = 1; $j < count($arr); $j++) {
-                $rez = $rez+$arr[$j];
-            }
-            break;
-        case '*':
-            $rez=$arr[0];
-                for ($j = 1; $j < count($arr); $j++) {
-                    $rez = $rez*$arr[$j];
-                }
-            break;
-        case '-':
-            $rez=$arr[0];
-            for ($j = 1; $j < count($arr); $j++) {
-                $rez = $rez-$arr[$j];
-            }
-            break;
-        case '/':
-            $rez=$arr[0];
-            for ($j = 1; $j < count($arr); $j++) {
-                $rez = $rez/$arr[$j];
-            }
-            break;
-        default : echo "Некорректная операция";
-
-
+    for ($x=0; $x<count($arr); $x++) {
+        if (is_numeric($arr[$x]) !== true) {
+            echo "Недопустимые значения";
+            return;
+        }
     }
-    echo $rez;
+
+            switch ($str){
+                case '+':
+                    $rez=$arr[0];
+                    for ($j = 1; $j < count($arr); $j++) {
+                        $rez = $rez+$arr[$j];
+                    }
+                    break;
+                case '*':
+                    $rez=$arr[0];
+                    for ($j = 1; $j < count($arr); $j++) {
+                        $rez = $rez*$arr[$j];
+                    }
+                    break;
+                case '-':
+                    $rez=$arr[0];
+                    for ($j = 1; $j < count($arr); $j++) {
+                        $rez = $rez-$arr[$j];
+                    }
+                    break;
+                case '/':
+                    $rez=$arr[0];
+                    for ($j = 1; $j < count($arr); $j++) {
+                        if ($arr[$j]==0){
+                            echo "Деление на 0 недопустимо";
+                            return;
+                        } else {
+                            $rez = $rez/$arr[$j];
+                        }
+
+                    }
+                    break;
+                default : echo "Некорректная операция";
+
+
+            }
+            echo $rez;
+
+
 }
 $arr_num=[1, 3, 5, 7];
-$symbol='+';
+$symbol='/';
 
 func2($arr_num, $symbol);
 
@@ -107,7 +122,12 @@ echo "<h3>Задание #3</h3>";
 //Результат: 1 + 2 + 3 + 5.2 = 11.2
 function func3($arr){
     $arg = func_get_args();
-
+    for ($x=1; $x<count($arg); $x++) {
+        if (is_numeric($arg[$x]) !== true) {
+            echo "Недопустимые значения";
+            return;
+        }
+    }
     switch ($arr[0]){
         case '+':
             $rez=$arg[1];
@@ -130,7 +150,12 @@ function func3($arr){
         case '/':
             $rez=$arg[1];
             for ($z = 2; $z < count($arg); $z++) {
-                $rez = $rez/$arg[$z];
+                if ($arr[$z]==0){
+                    echo "Деление на 0 недопустимо";
+                    return;
+                } else {
+                    $rez = $rez/$arr[$j];
+                }
             }
             break;
         default : echo "Некорректная операция";
@@ -139,7 +164,7 @@ function func3($arr){
     }
     echo $rez;
 }
-func3('/', 1, 2, 3, 5.2);
+func3('/', 1, 0, 3, 5.2);
 
 
 //Задание #4
@@ -170,7 +195,7 @@ table(9,15);
 
 //Задание #5
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-echo "<h3>Задание #5</h3>";
+echo "<h3>Задание #5</h3>";// ПОМОТРЕТЬ ПОЗЖЕ, ЕСТЬ ВОПРОСЫ К ИСПОЛНЕНИЮ, ПО КИРИЛЛИЦЕ НЕ РАБОТАЕТ
 
 //Написать две функции.
 //Функция №1 принимает 1 строковый параметр и возвращает true, если строка является палиндромом*, false в противном случае.
@@ -179,44 +204,48 @@ echo "<h3>Задание #5</h3>";
 //
 //* Палиндром – строка, одинаково читающаяся в обоих направлениях.
 echo "<pre>";
+error_reporting(-1);
+mb_internal_encoding('utf-8');
 
 function funPalindrom1($s){
+    $s = preg_replace ('/[^a-zA-Zа-яА-Я]+/msiu', '',$s);
+    $text = mb_strtolower($s);
 
-    echo "очистка оригинала от лишних символов и приведение регистра к общему:   <br>";
-    $s1 = preg_replace ('/[^a-zA-Zа-яА-Я]+/msiu', '',$s);
-    $s2 = strtolower($s1);
-    echo "<strong>".$s2."</strong><br>";
 
-    $sr=strrev($s2);
-//    echo "<strong>".$sr."</strong><br>";
-    echo "очистка отражения от лишних символов и приведение регистра к общему:   <br>";
-    $sr1 = preg_replace ('/[^a-zA-Zа-яА-Я]+/msiu', '',$sr)."<br>";
-    $sr2 = strtolower($sr1);
-    echo "<strong>".$sr."</strong><br>";
-//    return $s2==$sr2;
-    return strtolower(preg_replace ('/[^a-zA-Zа-яА-Я]+/msiu', '',$s))==strrev(strtolower(preg_replace ('/[^a-zA-Zа-яА-Я]+/msiu', '',$s)));
+    $text1 = iconv('utf-8', 'windows-1251', $text);
+    $text1 = strrev($text1);
+    $text1 = iconv('windows-1251', 'utf-8', $text1);
+
+    echo $text."<br>";
+    echo $text1."<br>";
+    if ($text1==$text){
+        return true;
+    } elseif ($text1!==$text){
+        return false;
+    }
+
 }
 
 function funPalindrom2($str){
-    var_dump(funPalindrom1($str));
-    echo "Function #2<br>";
-    $fn=funPalindrom1($str);
-    switch ($fn){
-        case true: echo "Это палиндром";
+    $resultTrue = "Это палиндром.";
+    $resultFalse = "Это не палиндром.";
+
+    switch (funPalindrom1($str)){
+        case true: echo $resultTrue;
             break;
-        case false: echo "Это не палиндром";
+        case false: echo $resultFalse;
             break;
     }
 }
 
 //$strPalindrom="Уплотнил клин толпу.";
 //$strPalindrom="Упапиапиапик клин толпу.";
-$strPalindrom="qw ErtyTr ewq.";
+//$strPalindrom="qw ErtyTr ewq.";
 //$strPalindrom="qwertytrewq.";
 //$strPalindrom="qw erty.";
 //$strPalindrom="q.";
+$strPalindrom = "Аргентина манит негра";
 
-//echo funPalindrom1($strPalindrom);
 funPalindrom2($strPalindrom);
 
 
@@ -254,6 +283,11 @@ echo str_replace('Две', 'Три', $str23);
 //Если кол-во пакетов более 1000, то выдавать сообщение: “Сеть есть”
 //Если в переданной в функцию строке есть “:)”, то нарисовать смайл в ASCII и не выдавать сообщение из пункта №3.
 //Смайл должен храниться в отдельной функции
+
+//Задание 8: не корректная проверка, попробуйте вот тут elseif (count($strArr1[0]) > 3) { добавить var_dump и посмотреть,
+//что у вас в этом массиве
+
+
 echo "<h3>Задание #8</h3>";
 function smylik(){
     echo "( ͡° ͜ʖ ͡°)<br>";
@@ -270,12 +304,13 @@ function rxPackets($str)
     if (count($strArr2[0]) !== 0) {
         smylik();
     } elseif (count($strArr1[0]) > 3) {
+        var_dump($strArr1[0]);
         echo "Сеть есть";
     }
 }
 
-$rxStr="RX packets:950381 errors:0 dropped:0 overruns:0 frame:0.:)";
-//$rxStr="RX packets:950381 errors:0 dropped:0 overruns:0 frame:0.";
+//$rxStr="RX packets:950381 errors:0 dropped:0 overruns:0 frame:0.:)";
+$rxStr="RX packets:950381 errors:0 dropped:0 overruns:0 frame:0.";
 rxPackets($rxStr);
 
 
