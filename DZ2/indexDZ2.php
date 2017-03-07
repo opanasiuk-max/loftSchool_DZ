@@ -216,8 +216,6 @@ function funPalindrom1($s){
     $text1 = strrev($text1);
     $text1 = iconv('windows-1251', 'utf-8', $text1);
 
-    echo $text."<br>";
-    echo $text1."<br>";
     if ($text1==$text){
         return true;
     } elseif ($text1!==$text){
