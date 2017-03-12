@@ -176,7 +176,7 @@ echo "<h3>Задание #4</h3>";
 // В остальных случаях выдавать корректную ошибку.
 function table($w, $h){
     if (is_int($w) and is_int($h)){
-        echo "<pre></pre><table width='50%' cols='10' align='center'>";
+        echo "<pre><table width='50%' cols='10' align='center'>";
         for ($i=1; $i<=$h; $i++){
             echo "<tr>";
             for ($j=1; $j<=$w; $j++){
@@ -282,8 +282,6 @@ echo str_replace('Две', 'Три', $str23);
 //Если в переданной в функцию строке есть “:)”, то нарисовать смайл в ASCII и не выдавать сообщение из пункта №3.
 //Смайл должен храниться в отдельной функции
 
-//Задание 8: не корректная проверка, попробуйте вот тут elseif (count($strArr1[0]) > 3) { добавить var_dump и посмотреть,
-//что у вас в этом массиве
 
 
 echo "<h3>Задание #8</h3>";
@@ -293,21 +291,26 @@ function smylik(){
 
 function rxPackets($str)
 {
-    $pattern1 = "/[a-z]+:[a-z0-9]+/";
-    $pattern2 = "/\:\)/";
+    $pattern = "/[a-z]+:[a-z0-9]+/";
 
-    preg_match_all($pattern1, $str, $strArr1);
-    preg_match($pattern2, $str, $strArr2);
+    preg_match_all($pattern, $str, $strArr);
+    $count=0;
+    foreach ($strArr[0] as $value){
+        $arr = explode(":", $value);
+        $arrassoc[$arr[0]]=$arr[1];
+        if ($arr[1]==")"){
+            $count++;
+        }
+    }
+    print_r($arrassoc);
 
-    if (count($strArr2[0]) !== 0) {
+    if ($count!== 0) {
         smylik();
-    } elseif (count($strArr1[0]) > 3) {
-        var_dump($strArr1[0]);
+    } elseif (count($arrassoc) > 3) {
+        print_r ($arrassoc);
         echo "Сеть есть";
     }
 }
-
-//$rxStr="RX packets:950381 errors:0 dropped:0 overruns:0 frame:0.:)";
 $rxStr="RX packets:950381 errors:0 dropped:0 overruns:0 frame:0.";
 rxPackets($rxStr);
 
