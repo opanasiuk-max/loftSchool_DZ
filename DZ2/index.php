@@ -285,29 +285,31 @@ echo str_replace('Две', 'Три', $str23);
 
 
 echo "<h3>Задание #8</h3>";
+
 function smylik(){
     echo "( ͡° ͜ʖ ͡°)<br>";
 }
 
 function rxPackets($str)
 {
-    $pattern = "/[a-z]+:[a-z0-9]+/";
+    $pattern = "/[a-z\)]+:[a-z0-9\)]+/";
 
     preg_match_all($pattern, $str, $strArr);
     $count=0;
-    foreach ($strArr[0] as $value){
-        $arr = explode(":", $value);
+    foreach ($strArr[0] as $value)
+    {
+        $arr = explode(':', $value);
         $arrassoc[$arr[0]]=$arr[1];
-        if ($arr[1]==")"){
+        if ($arr[1]==')')
+        {
             $count++;
         }
     }
-//    print_r($arrassoc);
 
     if ($count!== 0) {
         smylik();
     } elseif (count($arrassoc) > 3) {
-//        var_dump($arrassoc);
+        var_dump($arrassoc);
         echo "Сеть есть";
     }
 }
