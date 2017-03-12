@@ -302,12 +302,12 @@ function rxPackets($str)
             $count++;
         }
     }
-    print_r($arrassoc);
+//    print_r($arrassoc);
 
     if ($count!== 0) {
         smylik();
     } elseif (count($arrassoc) > 3) {
-        print_r ($arrassoc);
+//        var_dump($arrassoc);
         echo "Сеть есть";
     }
 }
