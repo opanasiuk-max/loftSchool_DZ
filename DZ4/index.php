@@ -142,27 +142,31 @@ echo "<br><b>Количество четных значений : </b>".$sumCoun
 
 
 echo "<h3>Задание #4</h3>";
-
+echo "<pre>";
 $url='https://en.wikipedia.org/w/api.php?action=query&titles=Main%20Page&prop=revisions&rvprop=content&format=json';
 //Вывести title и page_id
 
 
 $ch = curl_init($url);
-//curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+
 # Убираем вывод данных в браузер. Пусть функция их возвращает а не выводит
-echo "<pre>";
+//echo "<pre>";
 $result = curl_exec($ch);
-echo count($result[0][0])."<br>";
-
-print_r($result);
-
-//echo json_decode($result);
 
 
 // загрузка страницы и выдача её браузеру
-//curl_exec($ch);
 file_put_contents('file.json', json_encode($result));
-//file_put_contents('file.json', json_encode(htmlspecialchars($result)));
 
-htmlspecialchars($result);
+$qwerty=json_decode($result, true);
+
+//print_r($qwerty);
+
+echo "<br>";
+//echo ;
+
+$qw1=$qwerty['query']['pages']['15580374'];
+echo "page_id = ".$qw1['pageid']."<br>";
+
+echo "title = ".$qw1['title'];
